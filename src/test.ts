@@ -3,4 +3,4 @@ const testFunction = (arg: any) => {
   console.log(arg); // Использование console.log
 };
 
-testFunction('Test2');
+testFunction('Test3');
