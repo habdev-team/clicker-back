@@ -1,11 +1,9 @@
-import { Ctx, InjectBot, Start, Update } from 'nestjs-telegraf';
+import { Telegraf, Context } from 'telegraf';
+import { Ctx, Hears, InjectBot, Update } from 'nestjs-telegraf';
 
 import { TelegramService } from './telegram.service';
 
-import { COMMANDS } from 'common/constants';
-
-import Context from 'telegraf/typings/context';
-import { Telegraf } from 'telegraf/typings/telegraf';
+import { COMMANDS } from 'common/constants/bot_commands';
 
 @Update()
 export class TelegramController {
@@ -16,8 +14,8 @@ export class TelegramController {
     this.bot.telegram.setMyCommands(COMMANDS);
   }
 
-  @Start()
-  async startBot(@Ctx() ctx: Context) {
-    return await this.telegramService.startBot(ctx);
+  @Hears('/description')
+  async description(@Ctx() ctx: Context) {
+    await this.telegramService.description(ctx);
   }
 }

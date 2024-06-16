@@ -1,23 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Context, Markup } from 'telegraf';
+
+import { Context } from 'telegraf';
+
+import { UsersService } from 'mongodb/users/users.service';
 
 @Injectable()
 export class TelegramService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly usersService: UsersService,
+  ) {}
 
-  public async startBot(ctx: Context) {
-    const { first_name } = ctx.from;
-
-    const inlineKeyboard = Markup.inlineKeyboard([
-      [
-        Markup.button.webApp(
-          'Start play!',
-          this.configService.get('TELEGRAM_MINI_APP_LINK'),
-        ),
-      ],
-    ]);
-
-    return await ctx.sendMessage(`Hello, ${first_name}!`, inlineKeyboard);
+  async description(ctx: Context) {
+    return ctx.sendMessage('Description will be here');
   }
 }
