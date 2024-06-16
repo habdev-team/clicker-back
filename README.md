@@ -64,16 +64,16 @@ Start the server in dev mode:
 
 ```json
 {
-  "message": string,
+  "message": "string",
   "user": {
-    "image": string,
-    "name": string,
-    "teamId": string | null,
-    "userLevel": number,
+    "image": "string",
+    "name": "string",
+    "teamId": "string" | "null",
+    "userLevel": "number",
     "language": "ru" | "eng",
-    "vibration": boolean,
-    "coinAnimation": boolean,
-    "referralsCount": number
+    "vibration": "boolean",
+    "coinAnimation": "boolean",
+    "referralsCount": "number"
   }
 }
 ```
@@ -82,8 +82,8 @@ Start the server in dev mode:
 
 ```json
 {
-  "statusCode": number (503 - error occured on server side, 403 - on client side),
-  "message": string,
+  "statusCode": "number",
+  "message": "string"
 }
 ```
 
