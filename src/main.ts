@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['https://test-frontend-tg.onrender.com', 'http://localhost:5173'],
+    origin: ['https://mine-digs.ru', 'https://dev.mine-digs.ru'],
     credentials: true,
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   });
