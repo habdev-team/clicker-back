@@ -1,16 +1,12 @@
-import {
-  Post,
-  Body,
-  HttpCode,
-  Controller,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Post, Body, HttpCode, Controller, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
-import { ErrorCatcherInterceptor } from 'mongodb/interceptors/error-catcher/error-catcher.interceptor';
 
 import { UserDto } from './dto/User.dto';
+
+import { HttpExceptionFilter } from 'mongodb/exception-filters/http.exception-filters';
+import { MongoExceptionFilter } from 'mongodb/exception-filters/mongo.exception-filters';
 
 @ApiTags('users')
 @Controller('users')
@@ -19,7 +15,6 @@ export class UsersController {
 
   @HttpCode(200)
   @Post('/find_or_create_user')
-  @UseInterceptors(ErrorCatcherInterceptor)
   @ApiOperation({ summary: 'Find or create a user' })
   @ApiResponse({
     status: 200,
@@ -28,6 +23,7 @@ export class UsersController {
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiBody({ type: UserDto })
+  @UseFilters(HttpExceptionFilter, MongoExceptionFilter)
   findOrCreateUser(@Body() userDto: UserDto) {
     return this.usersService.findOrCreateUser(userDto);
   }
