@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { Context } from 'telegraf';
 
-import { UsersService } from 'mongodb/users/users.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class TelegramService {

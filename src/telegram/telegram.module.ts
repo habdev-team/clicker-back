@@ -6,7 +6,7 @@ import { TelegramController } from './telegram.controller';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { UsersModule } from 'mongodb/users/users.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [

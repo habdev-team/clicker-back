@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import type { LanguagesType } from 'mongodb/types/LanguagesType.type';
+type LanguagesType = 'ru' | 'eng';
 
 @Schema()
 export class Users {

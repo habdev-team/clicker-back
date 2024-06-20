@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
 import { TgAvatar } from './lib/tg-avatar.lib';
-import { Response } from 'mongodb/lib/responses.lib';
 
 import { UserRepository } from './users.repository';
 
@@ -19,7 +18,7 @@ export class UsersService {
     const { _id } = userDto;
     const user = await this.repository.findById({ _id });
 
-    if (user) return Response.usersResponse('User was found!', user);
+    if (user) return { error: false, message: 'User was found!', user };
 
     // if user new (do not exist in db) get telegram image
     const image = await this.tgAvatar.getUserAvatar(_id);
@@ -27,6 +26,6 @@ export class UsersService {
     // push user to database
     const newUser = await this.repository.create({ ...userDto, image });
 
-    return Response.usersResponse('User was created!', newUser);
+    return { error: false, message: 'User was created!', user: newUser };
   }
 }

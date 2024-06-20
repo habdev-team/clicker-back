@@ -6,7 +6,7 @@ import { UsersService } from './users.service';
 import { UserRepository } from './users.repository';
 import { UsersController } from './users.controller';
 
-import { UserSchema, Users } from 'mongodb/schemas/Users.schemas';
+import { UserSchema, Users } from 'src/schemas/Users.schemas';
 
 import { TgAvatar } from './lib/tg-avatar.lib';
 

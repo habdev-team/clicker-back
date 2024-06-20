@@ -4,7 +4,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectBot } from 'nestjs-telegraf';
 import { Context, Telegraf } from 'telegraf';
 
-import type { UserImageReponse } from 'mongodb/types/UserImageReponse.interface';
+export interface UserImageReponse {
+  ok: boolean;
+  result: {
+    file_id: string;
+    file_unique_id: string;
+    file_size: number;
+    file_path: string;
+  };
+}
 
 @Injectable()
 export class TgAvatar {
