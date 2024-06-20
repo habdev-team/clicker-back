@@ -33,3 +33,12 @@ export class Users {
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);
+
+// filter to show all users data without _id and __v
+UserSchema.set('toJSON', {
+  transform: (_, ret) => {
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});
