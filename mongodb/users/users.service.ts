@@ -9,7 +9,7 @@ import { InjectBot } from 'nestjs-telegraf';
 import { Context, Telegraf } from 'telegraf';
 
 import { TgAvatar } from './lib/tg-avatar.lib';
-import { Reponses } from 'mongodb/lib/responses.lib';
+import { Response } from 'mongodb/lib/responses.lib';
 
 import type { UserDto } from './dto/User.dto';
 
@@ -25,7 +25,7 @@ export class UsersService {
     const { _id } = userDto;
     const user = await this.userModel.findById({ _id }, { _id: 0, __v: 0 });
 
-    if (user) return Reponses.usersReponse('User was found!', user);
+    if (user) return Response.usersResponse('User was found!', user);
 
     const image = await TgAvatar.getUserAvatar(_id, this.bot, this.httpService);
 
@@ -34,6 +34,6 @@ export class UsersService {
       { _id: 0, __v: 0 },
     ).save();
 
-    return Reponses.usersReponse('User was created!', newUser);
+    return Response.usersResponse('User was created!', newUser);
   }
 }
