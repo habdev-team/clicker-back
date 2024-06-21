@@ -1,38 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { InjectModel } from '@nestjs/mongoose';
-
-import { Model } from 'mongoose';
-import { Users } from 'mongodb/schemas/Users.schemas';
-
-import { InjectBot } from 'nestjs-telegraf';
-import { Context, Telegraf } from 'telegraf';
 
 import { TgAvatar } from './lib/tg-avatar.lib';
 import { Response } from 'mongodb/lib/responses.lib';
 
-import type { UserDto } from './dto/User.dto';
+import { UserRepository } from './users.repository';
+
+import { UserDto } from './dto/User.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly httpService: HttpService,
-    @InjectBot() private readonly bot: Telegraf<Context>,
-    @InjectModel(Users.name) private readonly userModel: Model<Users>,
+    private readonly tgAvatar: TgAvatar,
+    private readonly repository: UserRepository,
   ) {}
 
   async findOrCreateUser(userDto: UserDto) {
+    // get user's _id, if user exist in database - just return data
     const { _id } = userDto;
-    const user = await this.userModel.findById({ _id }, { _id: 0, __v: 0 });
+    const user = await this.repository.findById({ _id });
 
     if (user) return Response.usersResponse('User was found!', user);
 
-    const image = await TgAvatar.getUserAvatar(_id, this.bot, this.httpService);
+    // if user new (do not exist in db) get telegram image
+    const image = await this.tgAvatar.getUserAvatar(_id);
 
-    const newUser = await new this.userModel(
-      { ...userDto, image },
-      { _id: 0, __v: 0 },
-    ).save();
+    // push user to database
+    const newUser = await this.repository.create({ ...userDto, image });
 
     return Response.usersResponse('User was created!', newUser);
   }

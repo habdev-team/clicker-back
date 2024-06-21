@@ -10,13 +10,16 @@ import { UsersModule } from 'mongodb/users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
+    TelegrafModule.forRootAsync({
+      imports: [ConfigModule.forRoot({ envFilePath: '.env' })],
+      useFactory: (configService: ConfigService) => ({
+        token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+      }),
+      inject: [ConfigService],
     }),
-    TelegrafModule.forRoot({ token: process.env.TELEGRAM_BOT_TOKEN }),
     UsersModule,
   ],
   controllers: [],
-  providers: [TelegramService, TelegramController, ConfigService],
+  providers: [TelegramService, TelegramController],
 })
 export class TelegramModule {}
