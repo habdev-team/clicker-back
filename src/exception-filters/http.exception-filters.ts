@@ -2,6 +2,7 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
+  ForbiddenException,
   HttpException,
   HttpStatus,
   Logger,
@@ -9,7 +10,7 @@ import {
 
 import type { Response, Request } from 'express';
 
-@Catch(HttpException)
+@Catch(HttpException || ForbiddenException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger();
 

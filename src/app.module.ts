@@ -1,19 +1,25 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { BotModule } from './bot/bot.module';
 
 import { UsersModule } from './users/users.module';
 
+import {
+  ConfigurationFileModule,
+  ConfigurationFileService,
+} from 'common/error-handling';
+
 @Module({
   imports: [
     MongooseModule.forRootAsync({
-      imports: [ConfigModule.forRoot({ envFilePath: '.env' })],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URL'),
+      imports: [ConfigurationFileModule],
+      useFactory: async (
+        configurationFileService: ConfigurationFileService,
+      ) => ({
+        uri: configurationFileService.envGetOrThrow('MONGO_URL'),
       }),
-      inject: [ConfigService],
+      inject: [ConfigurationFileService],
     }),
     BotModule,
     UsersModule,

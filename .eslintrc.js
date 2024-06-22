@@ -21,7 +21,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'error', // Запрещаем использование any
-    'no-console': 'error', // Запрещаем использование console.log
+    //'no-console': 'error', // Запрещаем использование console.log
     // Фиксим ошибку Delete `␍`eslintprettier/prettier
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },

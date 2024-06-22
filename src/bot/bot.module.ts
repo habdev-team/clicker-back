@@ -1,5 +1,4 @@
 import { Module, OnModuleInit } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { BotService } from './bot.service';
 import { BotController } from './bot.controller';
@@ -10,21 +9,26 @@ import { InjectBot, TelegrafModule } from 'nestjs-telegraf';
 import { StartHandler } from './handlers/start.handler';
 import { DescriptionHandler } from './handlers/description.handler';
 
+import {
+  ConfigurationFileModule,
+  ConfigurationFileService,
+} from 'common/error-handling';
+
 @Module({
   imports: [
     TelegrafModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+      imports: [ConfigurationFileModule],
+      useFactory: (сonfigurationFileService: ConfigurationFileService) => ({
+        token: сonfigurationFileService.envGetOrThrow('TELEGRAM_BOT_TOKEN'),
         launchOptions: {
           polling: false,
           webhook: {
-            domain: configService.get<string>('SERVER_DOMAIN'),
+            domain: сonfigurationFileService.envGetOrThrow('SERVER_DOMAIN'),
             path: '/bot',
           },
         },
       }),
-      inject: [ConfigService],
+      inject: [ConfigurationFileService],
     }),
   ],
   providers: [BotService, StartHandler, DescriptionHandler],

@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 
-import { TgAvatar } from './lib/tg-avatar.lib';
-
 import { UserRepository } from './users.repository';
+
+import { TgAvatarParserService } from 'common/tg-avatar-parser';
 
 import { UserDto } from './dto/User.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly tgAvatar: TgAvatar,
     private readonly repository: UserRepository,
+    private readonly tgAvatarParserService: TgAvatarParserService,
   ) {}
 
   async findOrCreateUser(userDto: UserDto) {
@@ -21,7 +21,7 @@ export class UsersService {
     if (user) return { error: false, message: 'User was found!', user };
 
     // if user new (do not exist in db) get telegram image
-    const image = await this.tgAvatar.getUserAvatar(_id);
+    const image = await this.tgAvatarParserService.getUserAvatar(_id);
 
     // push user to database
     const newUser = await this.repository.create({ ...userDto, image });
