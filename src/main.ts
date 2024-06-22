@@ -11,9 +11,11 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { getBotToken } from 'nestjs-telegraf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const bot = app.get(getBotToken());
 
   const configService = app.get(ConfigService);
   app.enableCors({
@@ -21,6 +23,10 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   });
+
+  app.use(
+    bot.webhookCallback(`${configService.get<string>('SERVER_DOMAIN')}/bot`),
+  );
 
   app.useGlobalPipes(new ValidationPipe());
 

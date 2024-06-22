@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { TelegramModule } from 'src/telegram/telegram.module';
+import { BotModule } from './bot/bot.module';
+
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,7 +15,8 @@ import { TelegramModule } from 'src/telegram/telegram.module';
       }),
       inject: [ConfigService],
     }),
-    TelegramModule,
+    BotModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
