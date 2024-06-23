@@ -35,6 +35,8 @@ Create `.env` file in the root of the project:
 ```bash
   TELEGRAM_BOT_TOKEN="telegram bot token you've saved here"
   MONGO_URL="insert Mongo database URL here"
+  SERVER_DOMAIN="enter domain link where server will be located"
+  PRODUCTION_DOMAINS="insert domains that will be ignored by CORS"
 ```
 
 Start the server in dev mode:
@@ -64,6 +66,7 @@ Start the server in dev mode:
 
 ```json
 {
+  "error": "boolean",
   "message": "string",
   "user": {
     "image": "string",
@@ -82,7 +85,7 @@ Start the server in dev mode:
 
 ```json
 {
-  "statusCode": "number",
+  "error": "boolean",
   "message": "string"
 }
 ```

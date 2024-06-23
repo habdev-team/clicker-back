@@ -6,17 +6,18 @@ import { UsersService } from './users.service';
 import { UserRepository } from './users.repository';
 import { UsersController } from './users.controller';
 
-import { UserSchema, Users } from 'mongodb/schemas/Users.schemas';
+import { UserSchema, Users } from 'src/schemas/Users.schemas';
 
-import { TgAvatar } from './lib/tg-avatar.lib';
+import { TgAvatarParserModule } from 'common/tg-avatar-parser';
 
 @Module({
   imports: [
     HttpModule,
+    TgAvatarParserModule,
     MongooseModule.forFeature([{ name: Users.name, schema: UserSchema }]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, UserRepository, TgAvatar],
+  providers: [UsersService, UserRepository],
   exports: [UsersService],
 })
 export class UsersModule {}

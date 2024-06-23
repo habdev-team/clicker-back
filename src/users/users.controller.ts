@@ -3,10 +3,10 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
 
-import { UserDto } from './dto/User.dto';
+import { HttpExceptionFilter } from 'src/exception-filters/http.exception-filters';
+import { MongoExceptionFilter } from 'src/exception-filters/mongo.exception-filters';
 
-import { HttpExceptionFilter } from 'mongodb/exception-filters/http.exception-filters';
-import { MongoExceptionFilter } from 'mongodb/exception-filters/mongo.exception-filters';
+import { UserDto } from './dto/User.dto';
 
 @ApiTags('users')
 @Controller('users')
