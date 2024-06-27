@@ -9,28 +9,10 @@ import { InjectBot, TelegrafModule } from 'nestjs-telegraf';
 import { StartHandler } from './handlers/start.handler';
 import { DescriptionHandler } from './handlers/description.handler';
 
-import {
-  ConfigurationFileModule,
-  ConfigurationFileService,
-} from 'common/error-handling';
+import { getTelegrafConfig } from 'src/config/telegraf.config';
 
 @Module({
-  imports: [
-    TelegrafModule.forRootAsync({
-      imports: [ConfigurationFileModule],
-      useFactory: (сonfigurationFileService: ConfigurationFileService) => ({
-        token: сonfigurationFileService.envGetOrThrow('TELEGRAM_BOT_TOKEN'),
-        launchOptions: {
-          polling: false,
-          webhook: {
-            domain: сonfigurationFileService.envGetOrThrow('SERVER_DOMAIN'),
-            path: '/bot',
-          },
-        },
-      }),
-      inject: [ConfigurationFileService],
-    }),
-  ],
+  imports: [TelegrafModule.forRootAsync(getTelegrafConfig())],
   providers: [BotService, StartHandler, DescriptionHandler],
   controllers: [BotController],
 })

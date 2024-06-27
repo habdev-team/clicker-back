@@ -1,30 +1,29 @@
 import '../sentry.init';
 import * as Sentry from '@sentry/node';
+
 import {
   NestFactory,
   HttpAdapterHost,
   BaseExceptionFilter,
 } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { Context, Telegraf } from 'telegraf';
+import { getBotToken } from 'nestjs-telegraf';
 
 import { AppModule } from './app.module';
 
-import { getBotToken } from 'nestjs-telegraf';
-import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { getCorsConfig } from './config/cors.config';
 
 import { ConfigurationFileService } from 'common/error-handling';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const bot = app.get(getBotToken());
+  const bot: Telegraf<Context> = app.get(getBotToken());
 
   const configService = app.get(ConfigurationFileService);
-
-  app.enableCors({
-    origin: configService.envGetOrThrow('PRODUCTION_DOMAINS').split(','),
-    credentials: true,
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
-  });
+  app.enableCors(getCorsConfig(configService));
 
   app.use(
     bot.webhookCallback(`${configService.envGetOrThrow('SERVER_DOMAIN')}/bot`),

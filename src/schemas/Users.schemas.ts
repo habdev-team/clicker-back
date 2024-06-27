@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-type LanguagesType = 'ru' | 'eng';
+import { IUser, LanguagesType } from 'lib/interfaces/user.interface';
 
 @Schema()
-export class Users {
+export class Users implements IUser {
   @Prop({ required: true })
   _id: number;
 
@@ -24,12 +24,6 @@ export class Users {
 
   @Prop({ required: false, default: true })
   vibration?: boolean;
-
-  @Prop({ required: false, default: false })
-  coinAnimation?: boolean;
-
-  @Prop({ required: false, default: 0 })
-  referralsCount?: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

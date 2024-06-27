@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserRepository } from './users.repository';
+import { UserRepository } from './repositories/users.repository';
 
 import { TgAvatarParserService } from 'common/tg-avatar-parser';
 

@@ -32,11 +32,20 @@ Install dependencies:
 
 Create `.env` file in the root of the project:
 
-```bash
+```bash1
+  #Basic Settings
+  # You need to create a bot for each user, or there will be a 409 conflict error because only one session is allowed per token.
   TELEGRAM_BOT_TOKEN="telegram bot token you've saved here"
-  MONGO_URL="insert Mongo database URL here"
   SERVER_DOMAIN="enter domain link where server will be located"
   PRODUCTION_DOMAINS="insert domains that will be ignored by CORS"
+
+  #Mongo Settings
+  MONGO_LOGIN="login to your mongodb"
+  MONGO_PASSWORD="password to your mongodb"
+  MONGO_HOST="host"
+  MONGO_PORT="port"
+  MONGO_DATABASE="enter database name here"
+  MONGO_AUTHDATABASE="authdatabase"
 ```
 
 Start the server in dev mode:
@@ -74,9 +83,7 @@ Start the server in dev mode:
     "teamId": "string" | "null",
     "userLevel": "number",
     "language": "ru" | "eng",
-    "vibration": "boolean",
-    "coinAnimation": "boolean",
-    "referralsCount": "number"
+    "vibration": "boolean"
   }
 }
 ```
